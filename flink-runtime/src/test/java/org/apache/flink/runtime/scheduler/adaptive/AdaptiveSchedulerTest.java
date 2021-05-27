@@ -771,7 +771,9 @@ public class AdaptiveSchedulerTest extends TestLogger {
                         .setRestartBackoffTimeStrategy(NoRestartBackoffTimeStrategy.INSTANCE)
                         .build();
 
-        assertThat(scheduler.howToHandleFailure(new Exception("test")).canRestart(), is(false));
+        assertThat(
+                scheduler.howToHandleFailure(null, new Exception("test")).canRestart(),
+                is(false));
     }
 
     @Test
@@ -785,7 +787,7 @@ public class AdaptiveSchedulerTest extends TestLogger {
                         .build();
 
         final Executing.FailureResult failureResult =
-                scheduler.howToHandleFailure(new Exception("test"));
+                scheduler.howToHandleFailure(null, new Exception("test"));
 
         assertThat(failureResult.canRestart(), is(true));
         assertThat(
@@ -800,7 +802,9 @@ public class AdaptiveSchedulerTest extends TestLogger {
 
         assertThat(
                 scheduler
-                        .howToHandleFailure(new SuppressRestartsException(new Exception("test")))
+                        .howToHandleFailure(
+                                null,
+                                new SuppressRestartsException(new Exception("test")))
                         .canRestart(),
                 is(false));
     }
